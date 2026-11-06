@@ -1,0 +1,273 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 150 30% 98%;
+    --foreground: 162 30% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 162 30% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 162 30% 11%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 0 0% 100%;
+    --primary-deep: 146 50% 32%;
+    --primary-soft: 152 76% 92%;
+    --secondary: 200 98% 39%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-sky: 198 93% 60%;
+    --secondary-soft: 199 95% 93%;
+    --muted: 150 22% 94%;
+    --muted-foreground: 160 12% 40%;
+    --accent: 152 55% 94%;
+    --accent-foreground: 160 40% 18%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 150 16% 88%;
+    --input: 150 16% 84%;
+    --ring: 160 84% 39%;
+    --surface: 150 28% 96%;
+  }
+
+  .dark {
+    --background: 200 30% 7%;
+    --foreground: 150 20% 94%;
+    --card: 200 25% 10%;
+    --card-foreground: 150 20% 94%;
+    --popover: 200 25% 10%;
+    --popover-foreground: 150 20% 94%;
+    --primary: 160 84% 42%;
+    --primary-foreground: 0 0% 100%;
+    --primary-deep: 152 60% 36%;
+    --primary-soft: 160 40% 16%;
+    --secondary: 200 98% 45%;
+    --secondary-foreground: 0 0% 100%;
+    --secondary-sky: 198 93% 62%;
+    --secondary-soft: 200 45% 16%;
+    --muted: 200 20% 15%;
+    --muted-foreground: 150 12% 65%;
+    --accent: 200 25% 16%;
+    --accent-foreground: 150 20% 92%;
+    --destructive: 0 62% 48%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 200 20% 18%;
+    --input: 200 20% 22%;
+    --ring: 160 84% 45%;
+    --surface: 200 26% 9%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    background: hsl(var(--primary) / 0.25);
+  }
+}
+
+@layer components {
+  .font-display {
+    font-family: "Oswald", "Inter", system-ui, sans-serif;
+    letter-spacing: 0.01em;
+  }
+
+  .surface-card {
+    @apply rounded-xl border bg-card text-card-foreground shadow-sm;
+  }
+
+  .pitch-grid {
+    background-color: #0b3d2c;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .pitch-stripes {
+    background-color: #0e4a35;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.035) 0px,
+      rgba(255, 255, 255, 0.035) 44px,
+      transparent 44px,
+      transparent 88px
+    );
+  }
+
+  .hero-mesh {
+    background-color: #06281d;
+    background-image:
+      radial-gradient(circle at 12% 18%, rgba(16, 185, 129, 0.28), transparent 42%),
+      radial-gradient(circle at 82% 8%, rgba(2, 132, 199, 0.22), transparent 46%),
+      linear-gradient(160deg, rgba(255, 255, 255, 0.04), transparent 55%);
+  }
+
+  .scrollbar-none {
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .live-dot {
+    @apply inline-block h-2 w-2 rounded-full bg-emerald-400 animate-live-pulse;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.18);
+  }
+
+  .table-sticky-first th:first-child,
+  .table-sticky-first td:first-child {
+    @apply sticky left-0 z-10 bg-card;
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .no-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  .print-break {
+    break-inside: avoid;
+  }
+
+  a[href]::after {
+    content: '';
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Dark mode compatibility
+   A handful of components still use fixed light tints (badges, notice boxes,
+   row highlights). These screen-only overrides keep them readable in dark mode
+   without touching every call site; print always uses the paper palette.
+--------------------------------------------------------------------------- */
+@media screen {
+  .dark .bg-white {
+    background-color: hsl(var(--card));
+  }
+  .dark .bg-slate-50 {
+    background-color: hsl(200 24% 12%);
+  }
+  .dark .bg-slate-100,
+  .dark .bg-slate-200 {
+    background-color: hsl(200 20% 16%);
+  }
+  .dark .bg-slate-900 {
+    background-color: hsl(200 22% 18%);
+  }
+  .dark .bg-emerald-50,
+  .dark .bg-emerald-100 {
+    background-color: hsl(158 40% 13%);
+  }
+  .dark .bg-amber-50,
+  .dark .bg-amber-100 {
+    background-color: hsl(38 45% 14%);
+  }
+  .dark .bg-rose-50,
+  .dark .bg-rose-100 {
+    background-color: hsl(0 40% 15%);
+  }
+  .dark .bg-sky-50,
+  .dark .bg-sky-100 {
+    background-color: hsl(200 50% 14%);
+  }
+  .dark .bg-violet-100 {
+    background-color: hsl(262 40% 17%);
+  }
+  .dark .bg-orange-100 {
+    background-color: hsl(25 45% 15%);
+  }
+
+  .dark .text-slate-900,
+  .dark .text-slate-800 {
+    color: hsl(var(--foreground));
+  }
+  .dark .text-slate-700,
+  .dark .text-slate-600 {
+    color: hsl(150 10% 76%);
+  }
+  .dark .text-emerald-700,
+  .dark .text-emerald-800,
+  .dark .text-emerald-900 {
+    color: hsl(152 65% 68%);
+  }
+  .dark .text-amber-700,
+  .dark .text-amber-800,
+  .dark .text-amber-900 {
+    color: hsl(38 90% 70%);
+  }
+  .dark .text-rose-700,
+  .dark .text-rose-800,
+  .dark .text-rose-900 {
+    color: hsl(0 80% 76%);
+  }
+  .dark .text-sky-700,
+  .dark .text-sky-800,
+  .dark .text-sky-900 {
+    color: hsl(199 90% 72%);
+  }
+  .dark .text-violet-800 {
+    color: hsl(262 80% 78%);
+  }
+
+  .dark .border-slate-100,
+  .dark .border-slate-200,
+  .dark .border-slate-300 {
+    border-color: hsl(var(--border));
+  }
+  .dark .border-rose-200,
+  .dark .border-rose-300 {
+    border-color: hsl(0 45% 32%);
+  }
+  .dark .border-amber-200,
+  .dark .border-amber-300 {
+    border-color: hsl(38 45% 32%);
+  }
+  .dark .border-sky-200 {
+    border-color: hsl(200 45% 30%);
+  }
+  .dark .border-emerald-200,
+  .dark .border-emerald-300 {
+    border-color: hsl(158 40% 28%);
+  }
+  .dark .border-violet-200 {
+    border-color: hsl(262 40% 32%);
+  }
+}
+
